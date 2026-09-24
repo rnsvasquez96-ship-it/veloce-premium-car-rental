@@ -1,26 +1,1951 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================
+   TAILWIND / SHADCN THEME
+========================================================= */
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: Consolas, "Courier New", monospace;
+  --font-heading: var(--font-sans);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* =========================================================
+   VELOCE DESIGN TOKENS
+========================================================= */
+
+:root {
+  color-scheme: dark;
+
+  --background: #050505;
+  --foreground: #f5f5f3;
+
+  --card: #0a0a0b;
+  --card-foreground: #f5f5f3;
+
+  --popover: #0a0a0b;
+  --popover-foreground: #f5f5f3;
+
+  --primary: #f5f5f3;
+  --primary-foreground: #050505;
+
+  --secondary: #111113;
+  --secondary-foreground: #f5f5f3;
+
+  --muted: #111113;
+  --muted-foreground: #8b8b91;
+
+  --accent: #d8ff3e;
+  --accent-foreground: #050505;
+
+  --destructive: #ef4444;
+
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 12%);
+  --ring: rgb(255 255 255 / 35%);
+
+  --chart-1: #f5f5f3;
+  --chart-2: #b4b4b8;
+  --chart-3: #808086;
+  --chart-4: #55555a;
+  --chart-5: #d8ff3e;
+
+  --radius: 0.625rem;
+
+  --sidebar: #080809;
+  --sidebar-foreground: #f5f5f3;
+
+  --sidebar-primary: #f5f5f3;
+  --sidebar-primary-foreground: #050505;
+
+  --sidebar-accent: #111113;
+  --sidebar-accent-foreground: #f5f5f3;
+
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: rgb(255 255 255 / 30%);
+
+  --section-space: clamp(72px, 8vw, 128px);
+
+  --veloce-black: #050505;
+  --veloce-black-soft: #080909;
+  --veloce-surface: #0d0e0e;
+
+  --veloce-white: #f5f5f3;
+  --veloce-muted: #a8aaa5;
+
+  --veloce-accent: #d8ff3e;
+
+  --veloce-border: rgb(255 255 255 / 10%);
+  --veloce-border-strong: rgb(255 255 255 / 18%);
+
+  --booking-border: rgb(255 255 255 / 16%);
+}
+
+.dark {
+  --background: #050505;
+  --foreground: #f5f5f3;
+
+  --card: #0a0a0b;
+  --card-foreground: #f5f5f3;
+
+  --popover: #0a0a0b;
+  --popover-foreground: #f5f5f3;
+
+  --primary: #f5f5f3;
+  --primary-foreground: #050505;
+
+  --secondary: #111113;
+  --secondary-foreground: #f5f5f3;
+
+  --muted: #111113;
+  --muted-foreground: #8b8b91;
+
+  --accent: #d8ff3e;
+  --accent-foreground: #050505;
+
+  --destructive: #ef4444;
+
+  --border: rgb(255 255 255 / 10%);
+  --input: rgb(255 255 255 / 12%);
+  --ring: rgb(255 255 255 / 35%);
+
+  --sidebar: #080809;
+  --sidebar-foreground: #f5f5f3;
+
+  --sidebar-primary: #f5f5f3;
+  --sidebar-primary-foreground: #050505;
+
+  --sidebar-accent: #111113;
+  --sidebar-accent-foreground: #f5f5f3;
+
+  --sidebar-border: rgb(255 255 255 / 10%);
+  --sidebar-ring: rgb(255 255 255 / 30%);
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+
+    background: #050505;
+    scroll-padding-top: 100px;
+    scroll-behavior: auto;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+
+    background: #050505;
+    color: #f5f5f3;
+
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+
+    font-family:
+      "Helvetica Neue",
+      Helvetica,
+      Arial,
+      sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+  }
+
+  input,
+  select,
+  textarea {
+    border-radius: 0;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  :focus-visible {
+    outline: 2px solid #d8ff3e;
+    outline-offset: 4px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+main:focus {
+  outline: none;
+}
+
+/* =========================================================
+   TEXT SELECTION
+========================================================= */
+
+::selection {
+  background: #d8ff3e;
+  color: #050505;
+}
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #29292c;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #454549;
+}
+
+/* =========================================================
+   SHARED LAYOUT
+========================================================= */
+
+@layer components {
+  .page-gutter {
+    padding-inline: clamp(24px, 4vw, 64px);
+  }
+
+  .content-width {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    line-height: 1.7;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b1b3ad;
+  }
+
+  .editorial-title {
+    font-size: clamp(3.5rem, 7vw, 7rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.065em;
+    text-transform: uppercase;
+  }
+
+  .primary-link {
+    display: inline-flex;
+    min-height: 56px;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 48px;
+
+    padding: 16px 24px;
+
+    background: #efefea;
+    color: #080909;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    transition:
+      background-color 220ms ease,
+      color 220ms ease;
+  }
+
+  .primary-link:hover {
+    background: #d8ff3e;
+  }
+
+  .primary-link svg {
+    transition: transform 220ms ease;
+  }
+
+  .primary-link:hover svg {
+    transform: translate(2px, -2px);
+  }
+
+  .primary-link:focus-visible {
+    outline-offset: 5px;
+  }
+
+  .secondary-link {
+    display: inline-flex;
+    min-height: 56px;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 28px;
+
+    padding: 16px 24px;
+
+    border: 1px solid #575952;
+
+    color: #efefea;
+
+    font-size: 11px;
+
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .secondary-link:hover {
+    border-color: #efefea;
+    background: #151716;
+  }
+
+  .secondary-link:focus-visible {
+    outline-offset: 5px;
+  }
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.nav-link {
+  position: relative;
+
+  padding-block: 14px;
+
+  color: #b1b3ad;
+
+  font-size: 10px;
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+
+  transition: color 200ms ease;
+}
+
+.nav-link::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  bottom: 5px;
+  left: 0;
+
+  height: 1px;
+
+  background: #d8ff3e;
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  transition: transform 220ms ease;
+}
+
+.nav-link:hover {
+  color: white;
+}
+
+.nav-link:hover::after {
+  transform: scaleX(1);
+}
+
+.nav-link[aria-current="page"] {
+  color: #f5f5f3;
+}
+
+.nav-link[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* =========================================================
+   SKIP LINK
+========================================================= */
+
+.skip-link {
+  position: fixed;
+  z-index: 10001;
+
+  top: 12px;
+  left: 12px;
+
+  padding: 14px 20px;
+
+  background: #efefea;
+  color: #080909;
+
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   PERFORMANCE UTILITIES
+========================================================= */
+
+.motion-transform {
+  will-change: transform;
+}
+
+.render-later {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}
+
+/* =========================================================
+   SEARCH / LEGACY SEARCH COMPATIBILITY
+========================================================= */
+
+.search-field {
+  display: flex;
+
+  min-width: 0;
+  min-height: 124px;
+
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 24px 20px;
+
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+.search-field:focus-within {
+  outline: 2px solid #d8ff3e;
+  outline-offset: -2px;
+}
+
+.search-field input,
+.search-field select {
+  min-height: 28px;
+  padding-block: 5px;
+}
+
+.search-field input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 8px;
+}
+
+label:has(input:focus-visible) {
+  outline: 2px solid #d8ff3e;
+  outline-offset: 4px;
+}
+
+@media (min-width: 768px) {
+  .search-field {
+    border-right: 1px solid rgb(255 255 255 / 12%);
+  }
+}
+
+@media (min-width: 1280px) {
+  .search-field {
+    border-bottom: 0;
+  }
+}
+
+/* =========================================================
+   FEATURED FLEET
+========================================================= */
+
+.campaign-fleet {
+  position: relative;
+  isolation: isolate;
+}
+
+.campaign-fleet > div {
+  position: relative;
+}
+
+/*
+ * Compatibility with the previous FleetShowcase while the
+ * component is being replaced with the new editorial version.
+ */
+
+.fleet-identity {
+  position: relative;
+  z-index: 2;
+
+  min-height: clamp(140px, 12vw, 180px);
+}
+
+.fleet-brand-watermark {
+  pointer-events: none;
+
+  position: absolute;
+  z-index: -1;
+
+  top: 32%;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  white-space: nowrap;
+
+  color: #1d241a;
+
+  font-size: clamp(7rem, 23vw, 23rem);
+  font-weight: 600;
+  line-height: 1;
+
+  letter-spacing: -0.09em;
+  text-transform: uppercase;
+}
+
+.fleet-car-stage {
+  display: block;
+
+  height: clamp(340px, 54vw, 670px);
+
+  margin:
+    -50px
+    -5%
+    -20px;
+}
+
+.campaign-fleet .fleet-car-stage img {
+  filter: none;
+}
+
+.fleet-edition {
+  position: absolute;
+
+  top: 4px;
+  right: 0;
+
+  text-align: right;
+
+  color: #adb6a6;
+
+  font-size: 9px;
+  line-height: 1.8;
+
+  letter-spacing: 0.18em;
+}
+
+.fleet-edition span {
+  display: block;
+
+  color: #59634f;
+
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 1;
+
+  letter-spacing: -0.07em;
+}
+
+.vehicle-ground::before {
+  content: "";
+
+  pointer-events: none;
+
+  position: absolute;
+
+  right: 12%;
+  bottom: 14%;
+  left: 17%;
+
+  height: 9%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgb(0 0 0 / 70%),
+      transparent 70%
+    );
+}
+
+/* =========================================================
+   FLEET CATALOG COMPATIBILITY
+========================================================= */
+
+.showroom-row .showroom-car {
+  transition:
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .showroom-row:hover .showroom-car {
+    transform:
+      scale(1.06)
+      translateY(-6px);
+  }
+}
+
+/* =========================================================
+   3D MACHINE EXPERIENCE
+========================================================= */
+
+.campaign-machine {
+  position: relative;
+
+  /*
+   * Long scroll runway for the cinematic GLB camera path.
+   */
+  height: 480svh;
+}
+
+.campaign-machine-stage {
+  min-height: 600px;
+
+  isolation: isolate;
+}
+
+.campaign-machine-labels {
+  position: absolute;
+
+  z-index: 30;
+
+  top: 112px;
+  right: 40px;
+  left: 40px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 24px;
+}
+
+.machine-chapters {
+  pointer-events: none;
+
+  position: absolute;
+
+  z-index: 30;
+
+  top: 19%;
+  left: 40px;
+
+  width: min(760px, 85vw);
+  height: 180px;
+}
+
+.machine-chapter-title {
+  margin-top: 18px;
+
+  font-size: clamp(3rem, 5.6vw, 6.5rem);
+  font-weight: 500;
+  line-height: 0.95;
+
+  letter-spacing: -0.075em;
+
+  text-transform: uppercase;
+}
+
+.machine-watermark {
+  pointer-events: none;
+
+  position: absolute;
+
+  top: 39%;
+  left: -5%;
+
+  font-size: 24vw;
+  line-height: 0.9;
+
+  letter-spacing: -0.085em;
+
+  color: transparent;
+
+  -webkit-text-stroke:
+    1px
+    rgb(218 230 203 / 9%);
+}
+
+.machine-loading {
+  position: absolute;
+
+  z-index: 30;
+
+  top: 57%;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  white-space: nowrap;
+
+  color: #b4bea9;
+}
+
+.campaign-machine-bottom {
+  position: absolute;
+
+  z-index: 30;
+
+  right: 40px;
+  bottom: 40px;
+  left: 40px;
+}
+
+/* =========================================================
+   EXPERIENCE
+========================================================= */
+
+/*
+ * Current Experience component owns its spacing with Tailwind.
+ * Keep this class intentionally light so old global rules do not
+ * double its vertical padding.
+ */
+
+.campaign-experience {
+  position: relative;
+  isolation: isolate;
+}
+
+/* =========================================================
+   JOURNEY / HOW IT WORKS
+========================================================= */
+
+.campaign-journey {
+  position: relative;
+  isolation: isolate;
+}
+
+/*
+ * Legacy journey classes kept for compatibility with any
+ * unreplaced version of HowItWorks.
+ */
+
+.journey-layout {
+  display: grid;
+
+  grid-template-columns: 1.1fr 1fr;
+
+  align-items: start;
+
+  gap: 100px;
+}
+
+.journey-intro {
+  position: sticky;
+  top: 150px;
+}
+
+.journey-track {
+  border-left: 1px solid #3c4534;
+}
+
+.journey-progress {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+  left: -1px;
+
+  width: 2px;
+
+  background: #d8ff3e;
+
+  transform-origin: top;
+}
+
+.journey-stop {
+  display: flex;
+
+  min-height: 330px;
+
+  align-items: flex-start;
+
+  gap: 32px;
+
+  padding:
+    55px
+    0
+    55px
+    40px;
+
+  border-bottom: 1px solid #2a3224;
+}
+
+.journey-number {
+  padding-top: 5px;
+
+  color: #d8ff3e;
+
+  font-family: Consolas, monospace;
+  font-size: 12px;
+}
+
+/* =========================================================
+   FINAL CTA
+========================================================= */
+
+/*
+ * Current FinalCTA controls its own dimensions and layout.
+ * Do not force old flex / padding rules here.
+ */
+
+.campaign-finale {
+  position: relative;
+  isolation: isolate;
+}
+
+/* =========================================================
+   CUSTOM CURSOR
+========================================================= */
+
+.campaign-cursor {
+  pointer-events: none;
+
+  position: fixed;
+
+  z-index: 10010;
+
+  top: 0;
+  left: 0;
+
+  opacity: 0;
+
+  transition: opacity 150ms ease;
+}
+
+.campaign-cursor[data-visible="true"] {
+  opacity: 1;
+}
+
+.campaign-cursor span {
+  position: absolute;
+
+  width: 36px;
+  height: 36px;
+
+  margin: -18px;
+
+  border: 1px solid rgb(224 237 210 / 55%);
+  border-radius: 50%;
+
+  transition:
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 250ms ease,
+    border-color 250ms ease;
+}
+
+.campaign-cursor[data-active="true"] span {
+  transform: scale(1.6);
+
+  border-color: #d8ff3e;
+
+  background: rgb(216 255 62 / 7%);
+}
+
+.campaign-cursor::after {
+  content: attr(data-label);
+
+  position: absolute;
+
+  top: 30px;
+  left: 0;
+
+  transform: translateX(-50%);
+
+  white-space: nowrap;
+
+  color: #eff6e9;
+
+  font-size: 9px;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   ROUTE TRANSITION
+========================================================= */
+
+.route-veil {
+  pointer-events: none;
+
+  position: fixed;
+
+  z-index: 10000;
+
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  background: #12180e;
+
+  transform-origin: right;
+
+  animation:
+    route-unveil
+    0.65s
+    cubic-bezier(0.76, 0, 0.24, 1)
+    both;
+}
+
+.route-veil span {
+  color: #d8ff3e;
+
+  font-size: 12px;
+
+  letter-spacing: 0.4em;
+}
+
+@keyframes route-unveil {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* =========================================================
+   VEHICLE DETAIL
+========================================================= */
+
+.vehicle-title {
+  font-size: clamp(3rem, 9vw, 9rem);
+  font-weight: 500;
+  line-height: 1;
+
+  letter-spacing: -0.065em;
+
+  text-transform: uppercase;
+}
+
+.vehicle-specification {
+  display: grid;
+
+  gap: 32px;
+}
+
+.vehicle-launch-stage {
+  margin-inline: -3%;
+}
+
+.vehicle-launch-caption,
+.confirmation-launch-caption {
+  display: flex;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding-block: 20px;
+}
+
+@media (min-width: 1024px) {
+  .vehicle-specification {
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    gap: 64px;
+  }
+}
+
+/* =========================================================
+   BOOKING / RESERVATION
+========================================================= */
+
+.booking-page {
+  --booking-border: rgb(255 255 255 / 16%);
+}
+
+.booking-page > header {
+  background: #0b0d0c;
+}
+
+.booking-page > header > div {
+  min-height: 88px;
+}
+
+.booking-grid {
+  align-items: start;
+}
+
+.booking-aside {
+  background: #0b0d0c;
+}
+
+.booking-aside > .pointer-events-none {
+  display: none;
+}
+
+.booking-aside h1 {
+  font-size: clamp(2rem, 3.6vw, 3.8rem);
+  line-height: 1;
+
+  letter-spacing: -0.05em;
+}
+
+.booking-car {
+  min-height: 240px;
+
+  margin-block: 28px;
+}
+
+.booking-car > div {
+  width: 100%;
+}
+
+.booking-car img {
+  filter: none;
+}
+
+.booking-car [class*="blur-"] {
+  display: none;
+}
+
+.booking-car > div > div::before {
+  content: "";
+
+  position: absolute;
+
+  right: 12%;
+  bottom: 3%;
+  left: 15%;
+
+  height: 11%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgb(0 0 0 / 65%),
+      transparent 70%
+    );
+}
+
+.booking-panel {
+  min-width: 0;
+
+  background: #080a09;
+}
+
+.booking-panel > div {
+  max-width: 760px;
+}
+
+.booking-panel h2 {
+  font-size: clamp(2.5rem, 4.6vw, 4.8rem);
+  line-height: 1;
+
+  letter-spacing: -0.06em;
+}
+
+.booking-panel h3 {
+  color: #e5e7e0;
+
+  font-size: 12px;
+
+  letter-spacing: 0.12em;
+}
+
+.booking-page [class*="text-[10px]"] {
+  line-height: 1.65;
+
+  letter-spacing: 0.14em;
+}
+
+/* =========================================================
+   BOOKING STEPS
+========================================================= */
+
+.booking-step {
+  position: relative;
+
+  display: flex;
+
+  min-width: 0;
+  min-height: 70px;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 16px 0;
+
+  color: #a6aaa2;
+
+  font-size: 10px;
+  line-height: 1.5;
+
+  letter-spacing: 0.12em;
+
+  text-transform: uppercase;
+}
+
+.booking-step-number {
+  display: flex;
+
+  min-width: 24px;
+
+  align-items: center;
+  justify-content: center;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.booking-step.is-active {
+  color: #f5f5f3;
+}
+
+.booking-step.is-active::after {
+  content: "";
+
+  position: absolute;
+
+  inset:
+    auto
+    20px
+    0
+    0;
+
+  height: 2px;
+
+  background: #d8ff3e;
+}
+
+.booking-step.is-complete .booking-step-number {
+  color: #d8ff3e;
+}
+
+/* =========================================================
+   BOOKING FIELDS
+========================================================= */
+
+.booking-field {
+  display: flex;
+
+  min-width: 0;
+  min-height: 92px;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 16px;
+
+  border: 1px solid transparent;
+  border-bottom-color: #52564f;
+
+  background: #101310;
+
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
+}
+
+.booking-field:hover {
+  border-bottom-color: #9b9f94;
+
+  background: #151914;
+}
+
+.booking-field:focus-within {
+  border-color: #d8ff3e;
+
+  outline: 1px solid #d8ff3e;
+  outline-offset: -1px;
+}
+
+.booking-field input,
+.booking-field select {
+  min-width: 0;
+  min-height: 30px;
+
+  padding-block: 3px;
+
+  color: #eeefe9;
+
+  font-size: 16px;
+}
+
+.booking-field input:focus-visible,
+.booking-field select:focus-visible {
+  outline: none;
+}
+
+.booking-field input::placeholder {
+  color: #90968b;
+}
+
+.booking-panel textarea {
+  min-height: 100px;
+
+  resize: vertical;
+
+  font-size: 16px;
+}
+
+.booking-panel div:has(> textarea):focus-within {
+  outline: 2px solid #d8ff3e;
+  outline-offset: 2px;
+}
+
+.booking-panel label:has(input[type="checkbox"]) {
+  min-height: 64px;
+
+  padding-bottom: 12px;
+}
+
+.booking-panel label:has(input[type="checkbox"]) > span:last-child {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.booking-actions > a,
+.booking-actions > button {
+  min-height: 64px;
+}
+
+.booking-actions > a[aria-disabled="true"] {
+  opacity: 0.65;
+}
+
+/* =========================================================
+   BOOKING REVIEW
+========================================================= */
+
+.booking-review .booking-aside {
+  background: #11160f;
+}
+
+.booking-review .booking-panel {
+  background: #0c0e0b;
+}
+
+.review-entry {
+  min-width: 0;
+
+  padding: 20px 0;
+
+  border-bottom: 1px solid var(--booking-border);
+}
+
+.review-entry > p:nth-child(2) {
+  color: #eeefe9;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.review-entry > p:last-child {
+  color: #a9aea1;
+
+  font-size: 12px;
+
+  letter-spacing: 0;
+
+  text-transform: none;
+}
+
+.review-edit {
+  display: flex;
+
+  width: fit-content;
+  min-height: 44px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin:
+    -8px
+    0
+    16px
+    auto;
+
+  border-bottom: 1px solid #5b6253;
+
+  color: #d8dfcf;
+
+  font-size: 11px;
+
+  letter-spacing: 0.08em;
+}
+
+.review-edit:hover {
+  border-color: #d8ff3e;
+
+  color: #d8ff3e;
+}
+
+/* =========================================================
+   BOOKING REFERENCE
+========================================================= */
+
+.booking-reference {
+  min-width: 0;
+
+  overflow-wrap: anywhere;
+
+  font-family: Consolas, monospace;
+  font-size: clamp(16px, 2vw, 24px);
+
+  letter-spacing: 0.05em;
+}
+
+/* =========================================================
+   SUCCESS / CONFIRMATION
+========================================================= */
+
+.success-page h1 {
+  font-size: clamp(3.5rem, 7vw, 7.5rem);
+  line-height: 0.98;
+}
+
+.success-page > .pointer-events-none {
+  display: none;
+}
+
+.success-page aside {
+  border-top: 2px solid #d8ff3e;
+
+  background: #101310;
+}
+
+.success-page aside h2 {
+  line-height: 1.1;
+}
+
+.success-page [class*="tracking-[0."] {
+  letter-spacing: 0.14em;
+}
+
+.success-page button[aria-label="Copy booking reference"] {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 0;
+}
+
+/* =========================================================
+   CONFIRMATION LAUNCH
+========================================================= */
+
+.confirmation-launch {
+  position: relative;
+
+  isolation: isolate;
+
+  padding-top: 48px;
+
+  border-bottom: 1px solid #343b2e;
+}
+
+.confirmation-launch-heading {
+  pointer-events: none;
+
+  position: relative;
+
+  z-index: 2;
+}
+
+.success-page .confirmation-launch h1 {
+  margin-top: 24px;
+
+  font-size: clamp(4rem, 10vw, 10rem);
+  line-height: 0.88;
+
+  letter-spacing: -0.075em;
+
+  text-transform: uppercase;
+}
+
+.confirmation-launch h1 span {
+  color: #aab59e;
+}
+
+.confirmation-car {
+  position: relative;
+
+  height: clamp(290px, 38vw, 560px);
+
+  margin:
+    -100px
+    -3%
+    0
+    12%;
+}
+
+.confirmation-details-title {
+  margin-top: 24px;
+
+  font-size: clamp(2.5rem, 4.5vw, 5rem);
+  line-height: 1;
+
+  letter-spacing: -0.065em;
+
+  text-transform: uppercase;
+}
+
+.confirmation-details > section > div:first-child {
+  display: none;
+}
+
+.confirmation-details > section > p:first-of-type {
+  margin-top: 0;
+}
+
+.success-page .confirmation-details aside {
+  border: 0;
+  border-top: 1px solid #879772;
+}
+
+/* =========================================================
+   LOADING / RECOVERY STATES
+========================================================= */
+
+.loading-stage,
+.state-stage {
+  display: flex;
+
+  min-height: 100svh;
+
+  align-items: center;
+
+  padding-block:
+    128px
+    80px;
+
+  background: #080a09;
+}
+
+.state-title {
+  max-width: 1000px;
+
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 500;
+  line-height: 1.02;
+
+  letter-spacing: -0.06em;
+
+  text-wrap: balance;
+}
+
+.loading-layout {
+  display: grid;
+
+  grid-template-columns: 1.1fr 1fr;
+
+  gap: 48px;
+}
+
+.loading-surface {
+  border-block: 1px solid #2e332b;
+
+  background: #141813;
+}
+
+.loading-line {
+  height: 12px;
+
+  background: #242a21;
+}
+
+/* =========================================================
+   TITLE / CAR ARRIVAL ANIMATIONS
+========================================================= */
+
+@keyframes title-arrival {
+  from {
+    clip-path: inset(100% 0 0 0);
+
+    transform: translateY(55px);
+
+    opacity: 0.15;
+  }
+
+  to {
+    clip-path: inset(0 0 0 0);
+
+    transform: translateY(0);
+
+    opacity: 1;
+  }
+}
+
+@keyframes car-arrival {
+  from {
+    transform: translateX(50px);
+
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .confirmation-launch-heading {
+    animation:
+      title-arrival
+      1s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      both;
+  }
+
+  .confirmation-car {
+    animation:
+      car-arrival
+      1.3s
+      cubic-bezier(0.16, 1, 0.3, 1)
+      both;
+  }
+}
+
+/* =========================================================
+   DESKTOP BOOKING
+========================================================= */
+
+@media (min-width: 1024px) {
+  .booking-grid {
+    grid-template-columns:
+      minmax(0, 0.8fr)
+      minmax(0, 1.2fr);
+  }
+
+  .booking-aside {
+    position: sticky;
+
+    top: 24px;
+
+    padding-block: 40px;
+  }
+
+  .booking-panel {
+    padding:
+      56px
+      clamp(32px, 4vw, 64px)
+      72px;
+  }
+}
+
+/* =========================================================
+   TABLET BOOKING
+========================================================= */
+
+@media (max-width: 1023px) {
+  .booking-aside {
+    padding-block: 24px;
+  }
+
+  .booking-aside h1 {
+    font-size: 30px;
+  }
+
+  .booking-car {
+    height: 150px;
+    min-height: 150px;
+
+    margin-block: 8px;
+  }
+
+  .booking-car > div {
+    width: min(100%, 400px);
+  }
+
+  .booking-aside > div > div:first-child > p {
+    margin-top: 12px;
+  }
+
+  .booking-aside > div > div:last-child {
+    padding-top: 16px;
+  }
+
+  .booking-panel {
+    padding-top: 40px;
+  }
+
+  .journey-layout {
+    grid-template-columns: 1fr;
+
+    gap: 70px;
+  }
+
+  .journey-intro {
+    position: relative;
+    top: auto;
+  }
+
+  .journey-stop {
+    min-height: 245px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 767px) {
+  /* Fleet compatibility */
+
+  .fleet-car-stage {
+    height: 310px;
+
+    margin:
+      -20px
+      -8%
+      10px;
+  }
+
+  .fleet-identity {
+    min-height: 140px;
+  }
+
+  .fleet-edition {
+    display: none;
+  }
+
+  /* Machine */
+
+  .campaign-machine {
+    height: 240svh;
+  }
+
+  .campaign-machine-stage {
+    min-height: 640px;
+  }
+
+  .campaign-machine-labels {
+    top: 104px;
+    right: 24px;
+    left: 24px;
+  }
+
+  .machine-chapters {
+    top: 25%;
+    left: 24px;
+
+    width: calc(100% - 48px);
+  }
+
+  .machine-chapter-title {
+    font-size: 11vw;
+  }
+
+  .machine-watermark {
+    top: 57%;
+
+    font-size: 27vw;
+  }
+
+  .campaign-machine-bottom {
+    right: 24px;
+    bottom: 30px;
+    left: 24px;
+  }
+
+  .campaign-machine-bottom > div:first-child {
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  /* Journey compatibility */
+
+  .journey-stop {
+    gap: 20px;
+
+    padding-left: 22px;
+  }
+
+  /* Confirmation */
+
+  .confirmation-launch {
+    padding-top: 38px;
+  }
+
+  .confirmation-car {
+    height: 260px;
+
+    margin:
+      -12px
+      -8%
+      0;
+  }
+
+  .confirmation-launch-caption {
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .vehicle-launch-caption {
+    font-size: 9px;
+
+    letter-spacing: 0.1em;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE BOOKING
+========================================================= */
+
+@media (max-width: 639px) {
+  .booking-step {
+    min-height: 74px;
+
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    gap: 6px;
+
+    font-size: 9px;
+
+    letter-spacing: 0.04em;
+  }
+
+  .booking-step-number {
+    justify-content: flex-start;
+  }
+
+  .booking-page > header > div {
+    gap: 12px;
+  }
+
+  .booking-page > header p {
+    letter-spacing: 0.1em;
+  }
+
+  .booking-panel {
+    padding-inline: 24px;
+  }
+
+  .booking-panel h2 {
+    font-size: clamp(2.3rem, 9.5vw, 3.4rem);
+  }
+
+  .booking-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-actions > a:first-child {
+    min-height: 48px;
+  }
+
+  .booking-panel [class*="gap-8"] {
+    gap: 16px;
+  }
+
+  .loading-layout {
+    grid-template-columns: 1fr;
+
+    gap: 24px;
+  }
+
+  .state-stage {
+    padding-top: 112px;
+  }
+
+  .machine-caption {
+    flex-wrap: wrap;
+
+    gap: 12px;
+  }
+}
+
+/* =========================================================
+   SHORT LANDSCAPE / MACHINE EXPERIENCE
+========================================================= */
+
+@media (max-height: 700px) and (min-width: 768px) {
+  .campaign-machine-labels {
+    top: 96px;
+  }
+
+  .machine-chapters {
+    top: 150px;
+  }
+
+  .machine-chapter-title {
+    margin-top: 8px;
+
+    font-size: 56px;
+  }
+
+  .machine-chapters p:last-child {
+    margin-top: 8px;
+  }
+}
+
+@media (max-height: 600px) and (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .campaign-machine-stage {
+    height: 100svh;
+    min-height: 0;
+  }
+
+  .campaign-machine-labels {
+    top: 96px;
+  }
+
+  .machine-chapters {
+    top: 136px;
+  }
+
+  .machine-chapter-title {
+    margin-top: 10px;
+
+    font-size: clamp(1.8rem, 7svh, 2.6rem);
+  }
+
+  .machine-chapters p:last-child:not(.machine-chapter-title) {
+    display: none;
+  }
+
+  .campaign-machine-bottom {
+    bottom: 20px;
+  }
+}
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (pointer: coarse) {
+  .custom-cursor,
+  .campaign-cursor {
+    display: none !important;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+  .primary-link:hover svg,
+  a:hover svg,
+  button:hover svg {
+    transform: none !important;
+  }
+
+  .campaign-machine {
+    height: auto;
+  }
+
+  .campaign-machine-stage {
+    position: relative;
+
+    min-height: 740px;
+  }
+
+  .campaign-cursor,
+  .route-veil {
+    display: none;
+  }
+
+  .journey-intro {
+    position: relative;
+    top: auto;
+  }
+
+  .confirmation-launch-heading,
+  .confirmation-car {
+    animation: none !important;
+  }
 }
