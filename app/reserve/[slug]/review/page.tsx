@@ -107,6 +107,7 @@ export default function ReviewReservationPage() {
       />
     );
   }
+  const vehicleSlug = vehicle.slug;
 
   /* =========================================================
      HYDRATION
@@ -212,8 +213,8 @@ export default function ReviewReservationPage() {
       setTimeout(
         () => {
           router.push(
-            `/reserve/${vehicle.slug}/success`,
-          );
+  `/reserve/${vehicleSlug}/success`,
+);
         },
         650,
       );

@@ -9,10 +9,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import {
-  useParams,
-  useRouter,
-} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -44,13 +41,11 @@ const SERVICE_FEE = 2500;
 ========================================================= */
 
 export default function ReservationSchedulePage() {
-  const params =
-    useParams<{
-      slug: string;
-    }>();
+  const params = useParams<{
+    slug: string;
+  }>();
 
-  const router =
-    useRouter();
+  const router = useRouter();
 
   const {
     reservation,
@@ -59,29 +54,19 @@ export default function ReservationSchedulePage() {
     hydrated,
   } = useReservation();
 
-  const [
-    today,
-    setToday,
-  ] = useState("");
+  const [today, setToday] = useState("");
 
   useEffect(() => {
-    setToday(
-      localDate(
-        new Date(),
-      ),
-    );
+    setToday(localDate(new Date()));
   }, []);
 
-  const vehicle =
-    useMemo(
-      () =>
-        vehicles.find(
-          (item) =>
-            item.slug ===
-            params.slug,
-        ),
-      [params.slug],
-    );
+  const vehicle = useMemo(
+    () =>
+      vehicles.find(
+        (item) => item.slug === params.slug,
+      ),
+    [params.slug],
+  );
 
   /* =======================================================
      GUARDS
@@ -99,16 +84,13 @@ export default function ReservationSchedulePage() {
     );
   }
 
+  const vehicleSlug = vehicle.slug;
+
   if (!hydrated) {
-    return (
-      <LoadingState reservation />
-    );
+    return <LoadingState reservation />;
   }
 
-  if (
-    hydrated &&
-    storageError
-  ) {
+  if (storageError) {
     return (
       <ExperienceState
         eyebrow="Reservation / Recovery"
@@ -124,40 +106,35 @@ export default function ReservationSchedulePage() {
      CALCULATIONS
   ======================================================== */
 
-  const rentalDays =
-    getRentalDays(
-      reservation.pickupDate,
-      reservation.returnDate,
-    );
+  const rentalDays = getRentalDays(
+    reservation.pickupDate,
+    reservation.returnDate,
+  );
 
   const rentalSubtotal =
-    vehicle.pricePerDay *
-    rentalDays;
+    vehicle.pricePerDay * rentalDays;
 
   const estimatedTotal =
     rentalDays > 0
-      ? rentalSubtotal +
-        SERVICE_FEE
+      ? rentalSubtotal + SERVICE_FEE
       : 0;
 
-  const validDateRange =
-    isValidDateRange(
-      reservation.pickupDate,
-      reservation.returnDate,
-      today,
-    );
+  const validDateRange = isValidDateRange(
+    reservation.pickupDate,
+    reservation.returnDate,
+    today,
+  );
 
-  const canContinue =
-    Boolean(
-      today &&
-        reservation.pickupLocation &&
-        reservation.returnLocation &&
-        reservation.pickupDate &&
-        reservation.returnDate &&
-        reservation.pickupTime &&
-        reservation.returnTime &&
-        validDateRange,
-    );
+  const canContinue = Boolean(
+    today &&
+      reservation.pickupLocation &&
+      reservation.returnLocation &&
+      reservation.pickupDate &&
+      reservation.returnDate &&
+      reservation.pickupTime &&
+      reservation.returnTime &&
+      validDateRange,
+  );
 
   /* =======================================================
      DATE ERROR
@@ -168,16 +145,14 @@ export default function ReservationSchedulePage() {
   if (
     today &&
     reservation.pickupDate &&
-    reservation.pickupDate <
-      today
+    reservation.pickupDate < today
   ) {
     dateError =
       "Pickup date cannot be in the past.";
   } else if (
     reservation.pickupDate &&
     reservation.returnDate &&
-    reservation.returnDate <=
-      reservation.pickupDate
+    reservation.returnDate <= reservation.pickupDate
   ) {
     dateError =
       "Return date must be after the pickup date.";
@@ -197,25 +172,18 @@ export default function ReservationSchedulePage() {
       pickupDate: value,
     };
 
-    /*
-     * If the current return date becomes invalid,
-     * move it to the next day automatically.
-     */
     if (
       value &&
       (
         !reservation.returnDate ||
-        reservation.returnDate <=
-          value
+        reservation.returnDate <= value
       )
     ) {
       updates.returnDate =
         nextDay(value);
     }
 
-    updateReservation(
-      updates,
-    );
+    updateReservation(updates);
   }
 
   /* =======================================================
@@ -223,8 +191,7 @@ export default function ReservationSchedulePage() {
   ======================================================== */
 
   function handleSubmit(
-    event:
-      FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
 
@@ -233,7 +200,7 @@ export default function ReservationSchedulePage() {
     }
 
     router.push(
-      `/reserve/${vehicle.slug}/driver`,
+      `/reserve/${vehicleSlug}/driver`,
     );
   }
 
@@ -250,7 +217,7 @@ export default function ReservationSchedulePage() {
       <header className="border-b border-white/10">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 lg:px-10">
           <Link
-            href={`/fleet/${vehicle.slug}`}
+            href={`/fleet/${vehicleSlug}`}
             className="group flex items-center gap-4"
           >
             <span className="flex h-10 w-10 items-center justify-center border border-white/10 transition-[background-color,border-color,color] duration-300 group-hover:border-white/30 group-hover:bg-white group-hover:text-black">
@@ -286,7 +253,7 @@ export default function ReservationSchedulePage() {
             </p>
 
             <p className="mt-1 text-[8px] tracking-[0.3em] text-white/45">
-              01 / 04
+              01 / 03
             </p>
           </div>
         </div>
@@ -297,7 +264,7 @@ export default function ReservationSchedulePage() {
       ====================================================== */}
 
       <div className="border-b border-white/10">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-4 px-6 lg:px-10">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-3 px-6 lg:px-10">
           <Step
             number="01"
             label="Schedule"
@@ -313,11 +280,6 @@ export default function ReservationSchedulePage() {
             number="03"
             label="Review"
           />
-
-          <Step
-            number="04"
-            label="Confirmed"
-          />
         </div>
       </div>
 
@@ -331,8 +293,6 @@ export default function ReservationSchedulePage() {
         ==================================================== */}
 
         <aside className="booking-aside relative overflow-hidden border-b border-white/10 bg-[#070708] px-6 py-10 lg:border-b-0 lg:border-r lg:px-10 lg:py-12">
-          {/* background lighting */}
-
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0"
@@ -347,8 +307,6 @@ export default function ReservationSchedulePage() {
           </div>
 
           <div className="relative z-10 flex h-full flex-col">
-            {/* vehicle identity */}
-
             <div>
               <div className="flex items-center gap-4">
                 <span className="h-px w-10 bg-[#d8ff3e]/70" />
@@ -410,16 +368,12 @@ export default function ReservationSchedulePage() {
 
               <VehicleStat
                 label="0—100"
-                value={
-                  vehicle.acceleration
-                }
+                value={vehicle.acceleration}
               />
 
               <VehicleStat
                 label="Transmission"
-                value={
-                  vehicle.transmission
-                }
+                value={vehicle.transmission}
               />
             </div>
           </div>
@@ -431,9 +385,7 @@ export default function ReservationSchedulePage() {
 
         <section className="booking-panel bg-[#09090b] px-6 py-12 lg:px-10 lg:py-14">
           <form
-            onSubmit={
-              handleSubmit
-            }
+            onSubmit={handleSubmit}
             className="mx-auto max-w-[700px]"
           >
             <p className="text-[7px] uppercase tracking-[0.43em] text-[#d8ff3e]/70">
@@ -462,53 +414,27 @@ export default function ReservationSchedulePage() {
               title="Location"
             >
               <SelectField
-                icon={
-                  <MapPin
-                    size={14}
-                  />
-                }
+                icon={<MapPin size={14} />}
                 label="Pickup location"
-                value={
-                  reservation.pickupLocation
+                value={reservation.pickupLocation}
+                onChange={(value) =>
+                  updateReservation({
+                    pickupLocation: value,
+                  })
                 }
-                onChange={(
-                  value,
-                ) =>
-                  updateReservation(
-                    {
-                      pickupLocation:
-                        value,
-                    },
-                  )
-                }
-                options={
-                  LOCATIONS
-                }
+                options={LOCATIONS}
               />
 
               <SelectField
-                icon={
-                  <MapPin
-                    size={14}
-                  />
-                }
+                icon={<MapPin size={14} />}
                 label="Return location"
-                value={
-                  reservation.returnLocation
+                value={reservation.returnLocation}
+                onChange={(value) =>
+                  updateReservation({
+                    returnLocation: value,
+                  })
                 }
-                onChange={(
-                  value,
-                ) =>
-                  updateReservation(
-                    {
-                      returnLocation:
-                        value,
-                    },
-                  )
-                }
-                options={
-                  LOCATIONS
-                }
+                options={LOCATIONS}
               />
             </FormSection>
 
@@ -522,45 +448,23 @@ export default function ReservationSchedulePage() {
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <InputField
-                  icon={
-                    <CalendarDays
-                      size={14}
-                    />
-                  }
+                  icon={<CalendarDays size={14} />}
                   label="Pickup date"
                   type="date"
-                  value={
-                    reservation.pickupDate
-                  }
-                  min={
-                    today ||
-                    undefined
-                  }
-                  onChange={
-                    handlePickupDate
-                  }
+                  value={reservation.pickupDate}
+                  min={today || undefined}
+                  onChange={handlePickupDate}
                 />
 
                 <InputField
-                  icon={
-                    <Clock3
-                      size={14}
-                    />
-                  }
+                  icon={<Clock3 size={14} />}
                   label="Pickup time"
                   type="time"
-                  value={
-                    reservation.pickupTime
-                  }
-                  onChange={(
-                    value,
-                  ) =>
-                    updateReservation(
-                      {
-                        pickupTime:
-                          value,
-                      },
-                    )
+                  value={reservation.pickupTime}
+                  onChange={(value) =>
+                    updateReservation({
+                      pickupTime: value,
+                    })
                   }
                 />
               </div>
@@ -576,16 +480,10 @@ export default function ReservationSchedulePage() {
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <InputField
-                  icon={
-                    <CalendarDays
-                      size={14}
-                    />
-                  }
+                  icon={<CalendarDays size={14} />}
                   label="Return date"
                   type="date"
-                  value={
-                    reservation.returnDate
-                  }
+                  value={reservation.returnDate}
                   min={
                     reservation.pickupDate
                       ? nextDay(
@@ -596,38 +494,22 @@ export default function ReservationSchedulePage() {
                   disabled={
                     !reservation.pickupDate
                   }
-                  onChange={(
-                    value,
-                  ) =>
-                    updateReservation(
-                      {
-                        returnDate:
-                          value,
-                      },
-                    )
+                  onChange={(value) =>
+                    updateReservation({
+                      returnDate: value,
+                    })
                   }
                 />
 
                 <InputField
-                  icon={
-                    <Clock3
-                      size={14}
-                    />
-                  }
+                  icon={<Clock3 size={14} />}
                   label="Return time"
                   type="time"
-                  value={
-                    reservation.returnTime
-                  }
-                  onChange={(
-                    value,
-                  ) =>
-                    updateReservation(
-                      {
-                        returnTime:
-                          value,
-                      },
-                    )
+                  value={reservation.returnTime}
+                  onChange={(value) =>
+                    updateReservation({
+                      returnTime: value,
+                    })
                   }
                 />
               </div>
@@ -657,11 +539,9 @@ export default function ReservationSchedulePage() {
                 <SummaryCell
                   label="Duration"
                   value={
-                    rentalDays >
-                    0
+                    rentalDays > 0
                       ? `${rentalDays} ${
-                          rentalDays ===
-                          1
+                          rentalDays === 1
                             ? "day"
                             : "days"
                         }`
@@ -691,8 +571,7 @@ export default function ReservationSchedulePage() {
                   </p>
 
                   <p className="mt-3 text-3xl font-medium tracking-[-0.05em]">
-                    {estimatedTotal >
-                    0
+                    {estimatedTotal > 0
                       ? `₱${estimatedTotal.toLocaleString(
                           "en-PH",
                         )}`
@@ -714,7 +593,7 @@ export default function ReservationSchedulePage() {
 
             <div className="booking-actions mt-10 grid gap-4 sm:grid-cols-[auto_1fr]">
               <Link
-                href={`/fleet/${vehicle.slug}`}
+                href={`/fleet/${vehicleSlug}`}
                 className="group flex min-h-16 items-center justify-center gap-4 border border-white/10 px-6 text-white/45 transition-[border-color,color] duration-300 hover:border-white/30 hover:text-white"
               >
                 <ArrowLeft
@@ -731,9 +610,7 @@ export default function ReservationSchedulePage() {
 
               <button
                 type="submit"
-                disabled={
-                  !canContinue
-                }
+                disabled={!canContinue}
                 className="group flex min-h-16 items-center justify-between bg-white px-7 text-left text-black transition-colors duration-300 hover:bg-[#d8ff3e] disabled:cursor-not-allowed disabled:bg-white/[0.07] disabled:text-white/25"
               >
                 <div>
@@ -820,9 +697,7 @@ function nextDay(
     date.getDate() + 1,
   );
 
-  return localDate(
-    date,
-  );
+  return localDate(date);
 }
 
 function getRentalDays(
@@ -971,27 +846,18 @@ function SelectField({
         <select
           required
           value={value}
-          onChange={(
-            event,
-          ) =>
+          onChange={(event) =>
             onChange(
-              event.target
-                .value,
+              event.target.value,
             )
           }
           className="mt-2 w-full cursor-pointer appearance-none bg-transparent text-sm text-white/75 outline-none"
         >
           {options.map(
-            (
-              option,
-            ) => (
+            (option) => (
               <option
-                key={
-                  option
-                }
-                value={
-                  option
-                }
+                key={option}
+                value={option}
                 className="bg-[#111113] text-white"
               >
                 {option}
@@ -1051,15 +917,10 @@ function InputField({
           type={type}
           value={value}
           min={min}
-          disabled={
-            disabled
-          }
-          onChange={(
-            event,
-          ) =>
+          disabled={disabled}
+          onChange={(event) =>
             onChange(
-              event.target
-                .value,
+              event.target.value,
             )
           }
           className="mt-2 w-full bg-transparent text-sm text-white/75 outline-none [color-scheme:dark] disabled:cursor-not-allowed"

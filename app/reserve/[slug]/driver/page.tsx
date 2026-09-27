@@ -9,10 +9,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from "react";
-import {
-  useParams,
-  useRouter,
-} from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -40,13 +37,11 @@ const SERVICE_FEE = 2500;
 ========================================================= */
 
 export default function DriverDetailsPage() {
-  const params =
-    useParams<{
-      slug: string;
-    }>();
+  const params = useParams<{
+    slug: string;
+  }>();
 
-  const router =
-    useRouter();
+  const router = useRouter();
 
   const {
     reservation,
@@ -55,34 +50,20 @@ export default function DriverDetailsPage() {
     hydrated,
   } = useReservation();
 
-  const [
-    today,
-    setToday,
-  ] = useState("");
-
-  const [
-    attempted,
-    setAttempted,
-  ] = useState(false);
+  const [today, setToday] = useState("");
+  const [attempted, setAttempted] = useState(false);
 
   useEffect(() => {
-    setToday(
-      localDate(
-        new Date(),
-      ),
-    );
+    setToday(localDate(new Date()));
   }, []);
 
-  const vehicle =
-    useMemo(
-      () =>
-        vehicles.find(
-          (item) =>
-            item.slug ===
-            params.slug,
-        ),
-      [params.slug],
-    );
+  const vehicle = useMemo(
+    () =>
+      vehicles.find(
+        (item) => item.slug === params.slug,
+      ),
+    [params.slug],
+  );
 
   /* =======================================================
      GUARDS
@@ -100,17 +81,15 @@ export default function DriverDetailsPage() {
     );
   }
 
+  const vehicleSlug = vehicle.slug;
+
   if (!hydrated) {
-    return (
-      <LoadingState reservation />
-    );
+    return <LoadingState reservation />;
   }
 
   if (
     storageError ||
-    !hasScheduleData(
-      reservation,
-    ) ||
+    !hasScheduleData(reservation) ||
     !hasValidSchedule(
       reservation.pickupDate,
       reservation.returnDate,
@@ -121,7 +100,7 @@ export default function DriverDetailsPage() {
         eyebrow="Reservation / Schedule"
         title="Complete the schedule."
         message="Choose a valid pickup and return schedule before continuing to the driver details."
-        href={`/reserve/${vehicle.slug}`}
+        href={`/reserve/${vehicleSlug}`}
         action="Return to schedule"
       />
     );
@@ -131,35 +110,28 @@ export default function DriverDetailsPage() {
      SUMMARY
   ======================================================== */
 
-  const rentalDays =
-    getRentalDays(
-      reservation.pickupDate,
-      reservation.returnDate,
-    );
+  const rentalDays = getRentalDays(
+    reservation.pickupDate,
+    reservation.returnDate,
+  );
 
   const rentalSubtotal =
-    vehicle.pricePerDay *
-    rentalDays;
+    vehicle.pricePerDay * rentalDays;
 
   const estimatedTotal =
-    rentalSubtotal +
-    SERVICE_FEE;
+    rentalSubtotal + SERVICE_FEE;
 
   /* =======================================================
      FIELD VALIDATION
   ======================================================== */
 
-  const errors =
-    validateDriver(
-      reservation,
-      today,
-    );
+  const errors = validateDriver(
+    reservation,
+    today,
+  );
 
   const canContinue =
-    Object.keys(
-      errors,
-    ).length ===
-      0 &&
+    Object.keys(errors).length === 0 &&
     reservation.termsAccepted;
 
   /* =======================================================
@@ -167,14 +139,11 @@ export default function DriverDetailsPage() {
   ======================================================== */
 
   function updateField(
-    field:
-      keyof typeof reservation,
-    value:
-      string | boolean,
+    field: keyof typeof reservation,
+    value: string | boolean,
   ) {
     updateReservation({
-      [field]:
-        value,
+      [field]: value,
     });
   }
 
@@ -183,21 +152,18 @@ export default function DriverDetailsPage() {
   ======================================================== */
 
   function handleSubmit(
-    event:
-      FormEvent<HTMLFormElement>,
+    event: FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
 
-    setAttempted(
-      true,
-    );
+    setAttempted(true);
 
     if (!canContinue) {
       return;
     }
 
     router.push(
-      `/reserve/${vehicle.slug}/review`,
+      `/reserve/${vehicleSlug}/review`,
     );
   }
 
@@ -214,7 +180,7 @@ export default function DriverDetailsPage() {
       <header className="border-b border-white/10">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-6 lg:px-10">
           <Link
-            href={`/reserve/${vehicle.slug}`}
+            href={`/reserve/${vehicleSlug}`}
             className="group flex items-center gap-4"
           >
             <span className="flex h-10 w-10 items-center justify-center border border-white/10 transition-[background-color,border-color,color] duration-300 group-hover:border-white/30 group-hover:bg-white group-hover:text-black">
@@ -336,9 +302,7 @@ export default function DriverDetailsPage() {
                   />
 
                   <Image
-                    src={
-                      vehicle.image
-                    }
+                    src={vehicle.image}
                     alt={`${vehicle.brand} ${vehicle.model}`}
                     width={1400}
                     height={800}
@@ -358,16 +322,12 @@ export default function DriverDetailsPage() {
             <div className="mt-auto space-y-5 border-t border-white/10 pt-7">
               <BookingLine
                 label="Pickup"
-                value={
-                  reservation.pickupLocation
-                }
+                value={reservation.pickupLocation}
               />
 
               <BookingLine
                 label="Return"
-                value={
-                  reservation.returnLocation
-                }
+                value={reservation.returnLocation}
               />
 
               <BookingLine
@@ -382,8 +342,7 @@ export default function DriverDetailsPage() {
               <BookingLine
                 label="Duration"
                 value={`${rentalDays} ${
-                  rentalDays ===
-                  1
+                  rentalDays === 1
                     ? "day"
                     : "days"
                 }`}
@@ -415,9 +374,7 @@ export default function DriverDetailsPage() {
 
         <section className="booking-panel bg-[#09090b] px-6 py-12 lg:px-10 lg:py-14">
           <form
-            onSubmit={
-              handleSubmit
-            }
+            onSubmit={handleSubmit}
             noValidate
             className="mx-auto max-w-[760px]"
           >
@@ -464,25 +421,17 @@ export default function DriverDetailsPage() {
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <TextField
-                  icon={
-                    <User
-                      size={14}
-                    />
-                  }
+                  icon={<User size={14} />}
                   label="First name"
                   placeholder="First name"
-                  value={
-                    reservation.firstName
-                  }
+                  value={reservation.firstName}
                   autoComplete="given-name"
                   error={
                     attempted
                       ? errors.firstName
                       : undefined
                   }
-                  onChange={(
-                    value,
-                  ) =>
+                  onChange={(value) =>
                     updateField(
                       "firstName",
                       value,
@@ -491,25 +440,17 @@ export default function DriverDetailsPage() {
                 />
 
                 <TextField
-                  icon={
-                    <User
-                      size={14}
-                    />
-                  }
+                  icon={<User size={14} />}
                   label="Last name"
                   placeholder="Last name"
-                  value={
-                    reservation.lastName
-                  }
+                  value={reservation.lastName}
                   autoComplete="family-name"
                   error={
                     attempted
                       ? errors.lastName
                       : undefined
                   }
-                  onChange={(
-                    value,
-                  ) =>
+                  onChange={(value) =>
                     updateField(
                       "lastName",
                       value,
@@ -520,17 +461,11 @@ export default function DriverDetailsPage() {
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <TextField
-                  icon={
-                    <Mail
-                      size={14}
-                    />
-                  }
+                  icon={<Mail size={14} />}
                   label="Email"
                   type="email"
                   placeholder="name@email.com"
-                  value={
-                    reservation.email
-                  }
+                  value={reservation.email}
                   autoComplete="email"
                   inputMode="email"
                   error={
@@ -538,9 +473,7 @@ export default function DriverDetailsPage() {
                       ? errors.email
                       : undefined
                   }
-                  onChange={(
-                    value,
-                  ) =>
+                  onChange={(value) =>
                     updateField(
                       "email",
                       value,
@@ -549,17 +482,11 @@ export default function DriverDetailsPage() {
                 />
 
                 <TextField
-                  icon={
-                    <Phone
-                      size={14}
-                    />
-                  }
+                  icon={<Phone size={14} />}
                   label="Phone number"
                   type="tel"
                   placeholder="+63 9XX XXX XXXX"
-                  value={
-                    reservation.phone
-                  }
+                  value={reservation.phone}
                   autoComplete="tel"
                   inputMode="tel"
                   error={
@@ -567,9 +494,7 @@ export default function DriverDetailsPage() {
                       ? errors.phone
                       : undefined
                   }
-                  onChange={(
-                    value,
-                  ) =>
+                  onChange={(value) =>
                     updateField(
                       "phone",
                       value,
@@ -579,29 +504,18 @@ export default function DriverDetailsPage() {
               </div>
 
               <TextField
-                icon={
-                  <User
-                    size={14}
-                  />
-                }
+                icon={<User size={14} />}
                 label="Date of birth"
                 type="date"
-                value={
-                  reservation.birthDate
-                }
-                max={
-                  today ||
-                  undefined
-                }
+                value={reservation.birthDate}
+                max={today || undefined}
                 autoComplete="bday"
                 error={
                   attempted
                     ? errors.birthDate
                     : undefined
                 }
-                onChange={(
-                  value,
-                ) =>
+                onChange={(value) =>
                   updateField(
                     "birthDate",
                     value,
@@ -620,25 +534,17 @@ export default function DriverDetailsPage() {
             >
               <div className="grid gap-5 sm:grid-cols-2">
                 <TextField
-                  icon={
-                    <FileText
-                      size={14}
-                    />
-                  }
+                  icon={<FileText size={14} />}
                   label="License number"
                   placeholder="License number"
-                  value={
-                    reservation.licenseNumber
-                  }
+                  value={reservation.licenseNumber}
                   autoComplete="off"
                   error={
                     attempted
                       ? errors.licenseNumber
                       : undefined
                   }
-                  onChange={(
-                    value,
-                  ) =>
+                  onChange={(value) =>
                     updateField(
                       "licenseNumber",
                       value,
@@ -647,16 +553,10 @@ export default function DriverDetailsPage() {
                 />
 
                 <TextField
-                  icon={
-                    <FileText
-                      size={14}
-                    />
-                  }
+                  icon={<FileText size={14} />}
                   label="License expiry"
                   type="date"
-                  value={
-                    reservation.licenseExpiry
-                  }
+                  value={reservation.licenseExpiry}
                   min={
                     reservation.returnDate ||
                     today ||
@@ -667,9 +567,7 @@ export default function DriverDetailsPage() {
                       ? errors.licenseExpiry
                       : undefined
                   }
-                  onChange={(
-                    value,
-                  ) =>
+                  onChange={(value) =>
                     updateField(
                       "licenseExpiry",
                       value,
@@ -692,25 +590,17 @@ export default function DriverDetailsPage() {
               title="Contact details"
             >
               <TextField
-                icon={
-                  <MapPin
-                    size={14}
-                  />
-                }
+                icon={<MapPin size={14} />}
                 label="Residential address"
                 placeholder="Street, Barangay, City"
-                value={
-                  reservation.address
-                }
+                value={reservation.address}
                 autoComplete="street-address"
                 error={
                   attempted
                     ? errors.address
                     : undefined
                 }
-                onChange={(
-                  value,
-                ) =>
+                onChange={(value) =>
                   updateField(
                     "address",
                     value,
@@ -728,12 +618,8 @@ export default function DriverDetailsPage() {
 
                 <textarea
                   id="reservation-notes"
-                  value={
-                    reservation.notes
-                  }
-                  onChange={(
-                    event,
-                  ) =>
+                  value={reservation.notes}
+                  onChange={(event) =>
                     updateField(
                       "notes",
                       event.target.value,
@@ -747,11 +633,7 @@ export default function DriverDetailsPage() {
 
                 <div className="mt-3 text-right">
                   <span className="text-[6px] uppercase tracking-[0.3em] text-white/15">
-                    {
-                      reservation.notes
-                        .length
-                    }{" "}
-                    / 500
+                    {reservation.notes.length} / 500
                   </span>
                 </div>
               </div>
@@ -764,16 +646,11 @@ export default function DriverDetailsPage() {
             <label className="group mt-10 flex cursor-pointer items-start gap-4 border-t border-white/10 pt-7">
               <input
                 type="checkbox"
-                checked={
-                  reservation.termsAccepted
-                }
-                onChange={(
-                  event,
-                ) =>
+                checked={reservation.termsAccepted}
+                onChange={(event) =>
                   updateField(
                     "termsAccepted",
-                    event.target
-                      .checked,
+                    event.target.checked,
                   )
                 }
                 className="peer sr-only"
@@ -788,9 +665,7 @@ export default function DriverDetailsPage() {
                   reservation.termsAccepted
                     ? "border-[#d8ff3e] bg-[#d8ff3e] text-black"
                     : "border-white/20 group-hover:border-white/40",
-                ].join(
-                  " ",
-                )}
+                ].join(" ")}
               >
                 {reservation.termsAccepted && (
                   <Check
@@ -822,7 +697,7 @@ export default function DriverDetailsPage() {
 
             <div className="booking-actions mt-10 grid gap-4 sm:grid-cols-[auto_1fr]">
               <Link
-                href={`/reserve/${vehicle.slug}`}
+                href={`/reserve/${vehicleSlug}`}
                 className="group flex min-h-16 items-center justify-center gap-4 border border-white/10 px-6 text-white/45 transition-[border-color,color] duration-300 hover:border-white/30 hover:text-white"
               >
                 <ArrowLeft
@@ -845,9 +720,7 @@ export default function DriverDetailsPage() {
                   canContinue
                     ? "bg-white text-black hover:bg-[#d8ff3e]"
                     : "bg-white/[0.07] text-white/35 hover:bg-white/[0.1]",
-                ].join(
-                  " ",
-                )}
+                ].join(" ")}
               >
                 <div>
                   <p className="text-[7px] uppercase tracking-[0.4em] opacity-45">
@@ -869,10 +742,7 @@ export default function DriverDetailsPage() {
             </div>
 
             {attempted &&
-              Object.keys(
-                errors,
-              ).length >
-                0 && (
+              Object.keys(errors).length > 0 && (
                 <div
                   role="alert"
                   className="mt-6 border-l border-[#e8c4a5]/45 pl-5"
@@ -935,67 +805,48 @@ function validateDriver(
   },
   today: string,
 ): DriverErrors {
-  const errors:
-    DriverErrors = {};
+  const errors: DriverErrors = {};
 
-  if (
-    !reservation.firstName.trim()
-  ) {
+  if (!reservation.firstName.trim()) {
     errors.firstName =
       "Enter a first name.";
   }
 
-  if (
-    !reservation.lastName.trim()
-  ) {
+  if (!reservation.lastName.trim()) {
     errors.lastName =
       "Enter a last name.";
   }
 
-  if (
-    !isValidEmail(
-      reservation.email,
-    )
-  ) {
+  if (!isValidEmail(reservation.email)) {
     errors.email =
       "Enter a valid email address.";
   }
 
-  if (
-    !isValidPhone(
-      reservation.phone,
-    )
-  ) {
+  if (!isValidPhone(reservation.phone)) {
     errors.phone =
       "Enter a valid phone number.";
   }
 
-  if (
-    !reservation.birthDate
-  ) {
+  if (!reservation.birthDate) {
     errors.birthDate =
       "Enter a date of birth.";
   } else if (
     today &&
-    reservation.birthDate >=
-      today
+    reservation.birthDate >= today
   ) {
     errors.birthDate =
       "Enter a valid date of birth.";
   }
 
   if (
-    reservation.licenseNumber
-      .trim().length <
+    reservation.licenseNumber.trim().length <
     4
   ) {
     errors.licenseNumber =
       "Enter a valid license number.";
   }
 
-  if (
-    !reservation.licenseExpiry
-  ) {
+  if (!reservation.licenseExpiry) {
     errors.licenseExpiry =
       "Enter the license expiry date.";
   } else if (
@@ -1008,8 +859,7 @@ function validateDriver(
   }
 
   if (
-    reservation.address
-      .trim().length <
+    reservation.address.trim().length <
     5
   ) {
     errors.address =
@@ -1102,11 +952,8 @@ function getRentalDays(
     pickup.getTime();
 
   if (
-    Number.isNaN(
-      difference,
-    ) ||
-    difference <=
-      0
+    Number.isNaN(difference) ||
+    difference <= 0
   ) {
     return 0;
   }
@@ -1145,16 +992,11 @@ function formatDate(
   return new Intl.DateTimeFormat(
     "en-PH",
     {
-      day:
-        "2-digit",
-      month:
-        "short",
-      year:
-        "numeric",
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
     },
-  ).format(
-    date,
-  );
+  ).format(date);
 }
 
 /* =========================================================
@@ -1236,9 +1078,7 @@ function TextField({
         error
           ? "border-[#e8c4a5]/45"
           : "",
-      ].join(
-        " ",
-      )}
+      ].join(" ")}
     >
       <span
         className={[
@@ -1246,9 +1086,7 @@ function TextField({
           error
             ? "text-[#e8c4a5]/70"
             : "text-white/35 group-focus-within:text-[#d8ff3e]",
-        ].join(
-          " ",
-        )}
+        ].join(" ")}
       >
         {icon}
       </span>
@@ -1263,26 +1101,15 @@ function TextField({
           value={value}
           min={min}
           max={max}
-          autoComplete={
-            autoComplete
-          }
-          inputMode={
-            inputMode
-          }
-          aria-invalid={
-            Boolean(error)
-          }
-          onChange={(
-            event,
-          ) =>
+          autoComplete={autoComplete}
+          inputMode={inputMode}
+          aria-invalid={Boolean(error)}
+          onChange={(event) =>
             onChange(
-              event.target
-                .value,
+              event.target.value,
             )
           }
-          placeholder={
-            placeholder
-          }
+          placeholder={placeholder}
           className="mt-2 w-full bg-transparent text-base text-white/75 outline-none placeholder:text-white/20 md:text-sm [color-scheme:dark]"
         />
 
